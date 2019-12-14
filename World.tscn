@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://World.gd" type="Script" id=1]
 [ext_resource path="res://KinematicBody2D.gd" type="Script" id=2]
@@ -31,18 +31,19 @@
 [ext_resource path="res://Individual Sprites/adventurer-attack1-03.png" type="Texture" id=29]
 [ext_resource path="res://Individual Sprites/adventurer-idle-2-01.png" type="Texture" id=30]
 [ext_resource path="res://Individual Sprites/adventurer-idle-2-00.png" type="Texture" id=31]
-[ext_resource path="res://sky.png" type="Texture" id=32]
-[ext_resource path="res://clouds.png" type="Texture" id=33]
-[ext_resource path="res://sea.png" type="Texture" id=34]
-[ext_resource path="res://far-grounds.png" type="Texture" id=35]
-[ext_resource path="res://CastleTileset.tres" type="TileSet" id=36]
-[ext_resource path="res://Enemy.tscn" type="PackedScene" id=37]
-[ext_resource path="res://Key.gd" type="Script" id=38]
-[ext_resource path="res://sprites/keys_1_1.png" type="Texture" id=39]
-[ext_resource path="res://sprites/keys_1_2.png" type="Texture" id=40]
-[ext_resource path="res://sprites/keys_1_3.png" type="Texture" id=41]
-[ext_resource path="res://sprites/keys_1_4.png" type="Texture" id=42]
-[ext_resource path="res://door.png" type="Texture" id=43]
+[ext_resource path="res://DefaultFont.tres" type="DynamicFont" id=32]
+[ext_resource path="res://sky.png" type="Texture" id=33]
+[ext_resource path="res://clouds.png" type="Texture" id=34]
+[ext_resource path="res://sea.png" type="Texture" id=35]
+[ext_resource path="res://far-grounds.png" type="Texture" id=36]
+[ext_resource path="res://CastleTileset.tres" type="TileSet" id=37]
+[ext_resource path="res://Enemy.tscn" type="PackedScene" id=38]
+[ext_resource path="res://Key.gd" type="Script" id=39]
+[ext_resource path="res://sprites/keys_1_1.png" type="Texture" id=40]
+[ext_resource path="res://sprites/keys_1_2.png" type="Texture" id=41]
+[ext_resource path="res://sprites/keys_1_3.png" type="Texture" id=42]
+[ext_resource path="res://sprites/keys_1_4.png" type="Texture" id=43]
+[ext_resource path="res://door.png" type="Texture" id=44]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -81,7 +82,7 @@ animations = [ {
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ), ExtResource( 42 ) ],
+"frames": [ ExtResource( 40 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 43 ) ],
 "loop": true,
 "name": "default",
 "speed": 3.5
@@ -101,6 +102,18 @@ script = ExtResource( 2 )
 [node name="Sprite" type="AnimatedSprite" parent="KinematicBody2D"]
 frames = SubResource( 1 )
 animation = "Turn"
+
+[node name="Timer" type="Timer" parent="KinematicBody2D"]
+wait_time = 3.0
+
+[node name="Label" type="Label" parent="KinematicBody2D"]
+visible = false
+margin_left = 20.0
+margin_top = -20.0
+margin_right = 10.0
+margin_bottom = 10.0
+custom_fonts/font = ExtResource( 32 )
+text = "The door is locked..."
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
 position = Vector2( -4, 3.5 )
@@ -126,7 +139,7 @@ scale = Vector2( 10, 1 )
 
 [node name="Sky" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
 scale = Vector2( 1.098, 1.2 )
-texture = ExtResource( 32 )
+texture = ExtResource( 33 )
 centered = false
 offset = Vector2( 0, -160 )
 region_enabled = true
@@ -141,7 +154,7 @@ motion_scale = Vector2( 0.1, 1 )
 [node name="Clouds" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
 position = Vector2( 0, 64 )
 scale = Vector2( 1, 1.01695 )
-texture = ExtResource( 33 )
+texture = ExtResource( 34 )
 centered = false
 offset = Vector2( 0.1, 0 )
 region_enabled = true
@@ -156,7 +169,7 @@ motion_scale = Vector2( 0.5, 1 )
 [node name="Sea" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
 position = Vector2( 0, 302.983 )
 scale = Vector2( 1, 1.01695 )
-texture = ExtResource( 34 )
+texture = ExtResource( 35 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 0, 0, 30000, 150 )
@@ -171,7 +184,7 @@ motion_mirroring = Vector2( 1500, 0 )
 [node name="Land" type="Sprite" parent="ParallaxBackground/ParallaxLayer4"]
 position = Vector2( 0, 288 )
 scale = Vector2( 1, 1.01695 )
-texture = ExtResource( 35 )
+texture = ExtResource( 36 )
 centered = false
 offset = Vector2( 0, -75 )
 region_enabled = true
@@ -183,29 +196,42 @@ __meta__ = {
 [node name="TileMaps" type="Node" parent="."]
 
 [node name="TileMap" type="TileMap" parent="TileMaps"]
-tile_set = ExtResource( 36 )
+tile_set = ExtResource( 37 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( -131106, 0, 0 )
 
 [node name="TileMap2" type="TileMap" parent="TileMaps"]
-tile_set = ExtResource( 36 )
+tile_set = ExtResource( 37 )
 cell_size = Vector2( 16, 16 )
 collision_use_kinematic = true
 format = 1
-tile_data = PoolIntArray( -131106, 0, 0, -131021, 0, 0, -131020, 0, 0, -131019, 0, 0, -131018, 0, 0, -131017, 0, 0, -131016, 0, 0, -131015, 0, 0, -131014, 0, 0, 66, 0, 0, 67, 0, 0, 68, 0, 0, 69, 0, 0, 70, 0, 0, 196663, 10, 0, 262198, 1, 0, 262199, 1, 0, 262200, 1, 0, 262201, 1, 0, 262202, 1, 0, 262203, 1, 0, 262204, 1, 0, 393281, 0, 0, 393282, 0, 0, 393283, 0, 0, 393284, 0, 0, 589826, 9, 0, 589886, 2, 0, 655361, 3, 0, 655362, 4, 0, 655363, 4, 0, 655364, 4, 0, 655365, 4, 0, 655366, 4, 0, 655367, 5, 0, 655396, 3, 0, 655397, 4, 0, 655398, 4, 0, 655399, 4, 0, 655400, 4, 0, 655401, 4, 0, 655402, 4, 0, 655403, 4, 0, 655404, 4, 0, 655405, 4, 0, 655406, 4, 0, 655407, 4, 0, 655408, 4, 0, 655409, 4, 0, 655410, 4, 0, 655411, 4, 0, 655412, 4, 0, 655413, 4, 0, 655414, 4, 0, 655415, 4, 0, 655416, 4, 0, 655417, 4, 0, 655418, 4, 0, 655419, 4, 0, 655420, 4, 0, 655421, 4, 0, 655422, 4, 0, 655423, 4, 0, 655424, 4, 0, 655425, 4, 0, 655426, 4, 0, 655427, 4, 0, 655428, 4, 0, 655429, 5, 0, 851978, 3, 0, 851979, 4, 0, 851980, 4, 0, 851981, 4, 0, 851982, 4, 0, 851983, 4, 0, 851984, 4, 0, 851985, 4, 0, 851986, 4, 0, 851987, 4, 0, 851988, 4, 0, 851989, 4, 0, 851990, 4, 0, 851991, 4, 0, 851992, 4, 0, 851993, 4, 0, 851994, 4, 0, 851995, 4, 0, 851996, 4, 0, 851997, 4, 0, 851998, 4, 0, 851999, 4, 0, 852000, 4, 0, 852001, 5, 0, 852039, 3, 0, 852040, 4, 0, 852041, 4, 0, 852042, 4, 0, 852043, 4, 0, 852044, 4, 0, 852045, 4, 0, 852046, 4, 0, 852047, 4, 0, 852048, 4, 0, 852049, 4, 0, 852050, 4, 0, 852051, 4, 0, 852052, 4, 0, 852053, 4, 0, 852054, 4, 0, 852055, 4, 0, 852056, 4, 0, 852057, 4, 0, 852058, 4, 0, 852059, 4, 0, 852060, 4, 0, 852061, 4, 0, 852062, 4, 0, 852063, 4, 0, 852064, 4, 0, 852065, 4, 0, 852066, 4, 0, 852067, 4, 0, 852068, 4, 0, 852069, 4, 0, 852070, 4, 0, 852071, 4, 0, 852072, 4, 0, 852073, 4, 0, 852074, 4, 0, 852075, 4, 0, 852076, 4, 0, 852077, 4, 0, 852078, 4, 0, 852079, 4, 0, 852080, 4, 0, 852081, 4, 0, 852082, 4, 0, 852083, 4, 0, 852084, 4, 0, 852085, 4, 0, 852086, 4, 0, 852087, 4, 0, 852088, 4, 0, 852089, 4, 0, 852090, 4, 0, 852091, 4, 0, 852092, 4, 0, 852093, 4, 0, 852094, 4, 0, 852095, 4, 0, 852096, 4, 0, 852097, 4, 0, 852098, 4, 0, 852099, 4, 0, 852100, 4, 0, 852101, 4, 0, 852102, 4, 0, 852103, 4, 0, 852104, 4, 0, 852105, 4, 0, 852106, 4, 0, 852107, 4, 0, 852108, 4, 0, 852109, 4, 0, 852110, 5, 0 )
+tile_data = PoolIntArray( -982941, 9, 0, -917406, 2, 0, -917405, 2, 0, -917404, 2, 0, -851915, 10, 0, -851873, 1, 0, -851872, 1, 0, -851871, 1, 0, -851870, 1, 0, -851869, 1, 0, -851868, 1, 0, -786381, 0, 0, -786380, 0, 0, -786379, 0, 0, -786378, 0, 0, -786377, 0, 0, -786376, 0, 0, -786375, 0, 0, -524225, 1, 0, -524224, 1, 0, -524223, 1, 0, -524222, 1, 0, -524221, 1, 0, -524220, 1, 0, -524201, 12, 0, -524200, 13, 0, -524199, 13, 0, -524198, 14, 0, -458666, 0, 0, -458665, 0, 0, -458664, 0, 0, -458663, 0, 0, -458662, 0, 0, -458661, 0, 0, -131106, 0, 0, -196513, 0, 0, -196512, 0, 0, -196511, 0, 0, -196510, 0, 0, -196509, 0, 0, -196508, 0, 0, -196507, 0, 0, -131021, 0, 0, -131020, 0, 0, -131019, 0, 0, -131018, 0, 0, -131017, 0, 0, -131016, 0, 0, -131015, 0, 0, -131014, 0, 0, 66, 0, 0, 67, 0, 0, 68, 0, 0, 69, 0, 0, 70, 0, 0, 65652, 11, 0, 131157, 1, 0, 131158, 1, 0, 131159, 1, 0, 131160, 1, 0, 131161, 1, 0, 131162, 1, 0, 131185, 1, 0, 131186, 1, 0, 131187, 1, 0, 131188, 1, 0, 131189, 1, 0, 131190, 1, 0, 196663, 10, 0, 262198, 1, 0, 262199, 1, 0, 262200, 1, 0, 262201, 1, 0, 262202, 1, 0, 262203, 1, 0, 262204, 1, 0, 393281, 0, 0, 393282, 0, 0, 393283, 0, 0, 393284, 0, 0, 393310, 1, 0, 393311, 1, 0, 393312, 1, 0, 393313, 1, 0, 393314, 1, 0, 458798, 2, 0, 458859, 2, 0, 524333, 2, 0, 524334, 2, 0, 524335, 2, 0, 524378, 9, 0, 524395, 2, 0, 524396, 2, 0, 589826, 9, 0, 589868, 2, 0, 589869, 2, 0, 589870, 2, 0, 589871, 2, 0, 589872, 2, 0, 589886, 2, 0, 589913, 9, 0, 589914, 2, 0, 589915, 2, 0, 589930, 0, 0, 589931, 0, 0, 589932, 0, 0, 589933, 0, 0, 589934, 0, 0, 589935, 0, 0, 655361, 3, 0, 655362, 4, 0, 655363, 4, 0, 655364, 4, 0, 655365, 4, 0, 655366, 4, 0, 655367, 5, 0, 655396, 3, 0, 655397, 4, 0, 655398, 4, 0, 655399, 4, 0, 655400, 4, 0, 655401, 4, 0, 655402, 4, 0, 655403, 4, 0, 655404, 4, 0, 655405, 4, 0, 655406, 4, 0, 655407, 4, 0, 655408, 4, 0, 655409, 4, 0, 655410, 4, 0, 655411, 4, 0, 655412, 4, 0, 655413, 4, 0, 655414, 4, 0, 655415, 4, 0, 655416, 4, 0, 655417, 4, 0, 655418, 4, 0, 655419, 4, 0, 655420, 4, 0, 655421, 4, 0, 655422, 4, 0, 655423, 4, 0, 655424, 4, 0, 655425, 4, 0, 655426, 4, 0, 655427, 4, 0, 655428, 4, 0, 655429, 5, 0, 655446, 0, 0, 655447, 0, 0, 655448, 0, 0, 655449, 0, 0, 655450, 0, 0, 655451, 0, 0, 786457, 9, 0, 786509, 2, 0, 786510, 2, 0, 786545, 9, 0, 786546, 9, 0, 786547, 9, 0, 851978, 3, 0, 851979, 4, 0, 851980, 4, 0, 851981, 4, 0, 851982, 4, 0, 851983, 4, 0, 851984, 4, 0, 851985, 4, 0, 851986, 4, 0, 851987, 4, 0, 851988, 4, 0, 851989, 4, 0, 851990, 4, 0, 851991, 4, 0, 851992, 4, 0, 851993, 4, 0, 851994, 4, 0, 851995, 4, 0, 851996, 4, 0, 851997, 4, 0, 851998, 4, 0, 851999, 4, 0, 852000, 4, 0, 852001, 5, 0, 852039, 3, 0, 852040, 4, 0, 852041, 4, 0, 852042, 4, 0, 852043, 4, 0, 852044, 4, 0, 852045, 4, 0, 852046, 4, 0, 852047, 4, 0, 852048, 4, 0, 852049, 4, 0, 852050, 4, 0, 852051, 4, 0, 852052, 4, 0, 852053, 5, 0, 852070, 3, 0, 852071, 4, 0, 852072, 4, 0, 852073, 4, 0, 852074, 4, 0, 852075, 4, 0, 852076, 4, 0, 852077, 4, 0, 852078, 4, 0, 852079, 4, 0, 852080, 4, 0, 852081, 4, 0, 852082, 4, 0, 852083, 4, 0, 852084, 4, 0, 852085, 4, 0, 852086, 4, 0, 852087, 4, 0, 852088, 4, 0, 852089, 4, 0, 852090, 4, 0, 852091, 4, 0, 852092, 4, 0, 852093, 4, 0, 852094, 4, 0, 852095, 4, 0, 852096, 4, 0, 852097, 4, 0, 852098, 4, 0, 852099, 4, 0, 852100, 4, 0, 852101, 4, 0, 852102, 4, 0, 852103, 4, 0, 852104, 4, 0, 852105, 4, 0, 852106, 4, 0, 852107, 4, 0, 852108, 4, 0, 852109, 4, 0, 852110, 5, 0 )
 
-[node name="Enemy" parent="." instance=ExtResource( 37 )]
+[node name="Enemy" parent="." instance=ExtResource( 38 )]
 position = Vector2( 239.869, 196.297 )
+speed = 45
+
+[node name="Enemy2" parent="." instance=ExtResource( 38 )]
+position = Vector2( 1320.71, 196.178 )
+speed = 45
+
+[node name="Enemy3" parent="." instance=ExtResource( 38 )]
+position = Vector2( 874.397, -42.7697 )
+speed = 45
+
+[node name="Enemy4" parent="." instance=ExtResource( 38 )]
+position = Vector2( 1743.27, 196.596 )
 speed = 45
 
 [node name="Key" type="KinematicBody2D" parent="."]
 editor/display_folded = true
-position = Vector2( 115.733, 151.705 )
-script = ExtResource( 38 )
+position = Vector2( 1592.5, -250.075 )
+script = ExtResource( 39 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Key"]
 frames = SubResource( 3 )
+frame = 3
 playing = true
 __meta__ = {
 "_edit_group_": true
@@ -219,8 +245,7 @@ __meta__ = {
 }
 
 [node name="Door" type="Area2D" parent="."]
-editor/display_folded = true
-position = Vector2( 771.102, 146.575 )
+position = Vector2( 2274.32, 194.006 )
 z_index = -2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
@@ -231,10 +256,11 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="Door"]
-texture = ExtResource( 43 )
+texture = ExtResource( 44 )
 __meta__ = {
 "_edit_group_": true
 }
 [connection signal="animation_finished" from="KinematicBody2D/Sprite" to="KinematicBody2D" method="_on_Sprite_animation_finished"]
+[connection signal="timeout" from="KinematicBody2D/Timer" to="KinematicBody2D" method="_on_Timer_timeout"]
 [connection signal="area_entered" from="Door" to="KinematicBody2D" method="_on_Door_area_entered"]
 [connection signal="body_entered" from="Door" to="KinematicBody2D" method="_on_Door_body_entered"]

@@ -71,10 +71,14 @@ func _on_Sprite_animation_finished():
 	if is_attacking:
 		is_attacking = false
 	if entered_door:
-		get_tree().change_scene("res://GameOver.tscn")
+		get_tree().change_scene("res://End.tscn")
 
 func _on_Door_body_entered(body):
-	print("DOOR AREA")
 	if has_key:
 		enter_door()
-	pass # Replace with function body.
+	else:
+		$Label.show()
+		$Timer.start(2)
+
+func _on_Timer_timeout():
+	$Label.hide()
