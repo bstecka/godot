@@ -1,0 +1,145 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://World.gd" type="Script" id=1]
+[ext_resource path="res://KinematicBody2D.gd" type="Script" id=2]
+[ext_resource path="res://Individual Sprites/adventurer-jump-00.png" type="Texture" id=3]
+[ext_resource path="res://Individual Sprites/adventurer-jump-01.png" type="Texture" id=4]
+[ext_resource path="res://Individual Sprites/adventurer-jump-02.png" type="Texture" id=5]
+[ext_resource path="res://Individual Sprites/adventurer-jump-03.png" type="Texture" id=6]
+[ext_resource path="res://Individual Sprites/adventurer-run-00.png" type="Texture" id=7]
+[ext_resource path="res://Individual Sprites/adventurer-run-01.png" type="Texture" id=8]
+[ext_resource path="res://Individual Sprites/adventurer-run-02.png" type="Texture" id=9]
+[ext_resource path="res://Individual Sprites/adventurer-run-03.png" type="Texture" id=10]
+[ext_resource path="res://Individual Sprites/adventurer-run-04.png" type="Texture" id=11]
+[ext_resource path="res://Individual Sprites/adventurer-run-05.png" type="Texture" id=12]
+[ext_resource path="res://Individual Sprites/adventurer-idle-2-00.png" type="Texture" id=13]
+[ext_resource path="res://Individual Sprites/adventurer-idle-2-01.png" type="Texture" id=14]
+[ext_resource path="res://sky.png" type="Texture" id=15]
+[ext_resource path="res://clouds.png" type="Texture" id=16]
+[ext_resource path="res://sea.png" type="Texture" id=17]
+[ext_resource path="res://far-grounds.png" type="Texture" id=18]
+[ext_resource path="res://CastleTileset.tres" type="TileSet" id=19]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "Jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ) ],
+"loop": true,
+"name": "Run",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 14 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 2.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+
+[node name="World" type="Node"]
+script = ExtResource( 1 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+position = Vector2( 40, 0 )
+script = ExtResource( 2 )
+
+[node name="Sprite" type="AnimatedSprite" parent="KinematicBody2D"]
+frames = SubResource( 1 )
+animation = "Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+position = Vector2( -4, 3.5 )
+scale = Vector2( 1.2, 1.4 )
+shape = SubResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="KinematicBody2D"]
+position = Vector2( -40, -40 )
+offset = Vector2( -40, 0 )
+anchor_mode = 0
+current = true
+limit_left = 0
+limit_top = -290
+limit_bottom = 300
+editor_draw_limits = true
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+offset = Vector2( 0, -100 )
+transform = Transform2D( 1, 0, 0, 1, 0, -100 )
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+scale = Vector2( 10, 1 )
+
+[node name="Sky" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+scale = Vector2( 1.098, 1.2 )
+texture = ExtResource( 15 )
+centered = false
+offset = Vector2( 0, -160 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 3000, 310 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.1, 1 )
+
+[node name="Clouds" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2( 0, 64 )
+scale = Vector2( 1, 1.01695 )
+texture = ExtResource( 16 )
+centered = false
+offset = Vector2( 0.1, 0 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 30000, 235 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.5, 1 )
+
+[node name="Sea" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
+position = Vector2( 0, 302.983 )
+scale = Vector2( 1, 1.01695 )
+texture = ExtResource( 17 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 30000, 150 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.5, 1 )
+motion_mirroring = Vector2( 1500, 0 )
+
+[node name="Land" type="Sprite" parent="ParallaxBackground/ParallaxLayer4"]
+position = Vector2( 0, 288 )
+scale = Vector2( 1, 1.01695 )
+texture = ExtResource( 18 )
+centered = false
+offset = Vector2( 0, -75 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 30000, 90 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="TileMaps" type="Node" parent="."]
+
+[node name="TileMap" type="TileMap" parent="TileMaps"]
+tile_set = ExtResource( 19 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( -131106, 0, 0 )
+
+[node name="TileMap2" type="TileMap" parent="TileMaps"]
+tile_set = ExtResource( 19 )
+cell_size = Vector2( 16, 16 )
+collision_use_kinematic = true
+format = 1
+tile_data = PoolIntArray( -131106, 0, 0, -131021, 0, 0, -131020, 0, 0, -131019, 0, 0, -131018, 0, 0, -131017, 0, 0, -131016, 0, 0, -131015, 0, 0, -131014, 0, 0, 66, 0, 0, 67, 0, 0, 68, 0, 0, 69, 0, 0, 70, 0, 0, 196663, 10, 0, 262198, 1, 0, 262199, 1, 0, 262200, 1, 0, 262201, 1, 0, 262202, 1, 0, 262203, 1, 0, 262204, 1, 0, 393281, 0, 0, 393282, 0, 0, 393283, 0, 0, 393284, 0, 0, 589826, 9, 0, 589886, 2, 0, 655361, 3, 0, 655362, 4, 0, 655363, 4, 0, 655364, 4, 0, 655365, 4, 0, 655366, 4, 0, 655367, 5, 0, 655396, 3, 0, 655397, 4, 0, 655398, 4, 0, 655399, 4, 0, 655400, 4, 0, 655401, 4, 0, 655402, 4, 0, 655403, 4, 0, 655404, 4, 0, 655405, 4, 0, 655406, 4, 0, 655407, 4, 0, 655408, 4, 0, 655409, 4, 0, 655410, 4, 0, 655411, 4, 0, 655412, 4, 0, 655413, 4, 0, 655414, 4, 0, 655415, 4, 0, 655416, 4, 0, 655417, 4, 0, 655418, 4, 0, 655419, 4, 0, 655420, 4, 0, 655421, 4, 0, 655422, 4, 0, 655423, 4, 0, 655424, 4, 0, 655425, 4, 0, 655426, 4, 0, 655427, 4, 0, 655428, 4, 0, 655429, 5, 0, 851978, 3, 0, 851979, 4, 0, 851980, 4, 0, 851981, 4, 0, 851982, 4, 0, 851983, 4, 0, 851984, 4, 0, 851985, 4, 0, 851986, 4, 0, 851987, 4, 0, 851988, 4, 0, 851989, 4, 0, 851990, 4, 0, 851991, 4, 0, 851992, 4, 0, 851993, 4, 0, 851994, 4, 0, 851995, 4, 0, 851996, 4, 0, 851997, 4, 0, 851998, 4, 0, 851999, 4, 0, 852000, 4, 0, 852001, 5, 0, 852039, 3, 0, 852040, 4, 0, 852041, 4, 0, 852042, 4, 0, 852043, 4, 0, 852044, 4, 0, 852045, 4, 0, 852046, 4, 0, 852047, 4, 0, 852048, 4, 0, 852049, 4, 0, 852050, 4, 0, 852051, 4, 0, 852052, 4, 0, 852053, 4, 0, 852054, 4, 0, 852055, 4, 0, 852056, 4, 0, 852057, 4, 0, 852058, 4, 0, 852059, 4, 0, 852060, 4, 0, 852061, 4, 0, 852062, 4, 0, 852063, 4, 0, 852064, 4, 0, 852065, 4, 0, 852066, 4, 0, 852067, 4, 0, 852068, 4, 0, 852069, 4, 0, 852070, 4, 0, 852071, 4, 0, 852072, 4, 0, 852073, 4, 0, 852074, 4, 0, 852075, 4, 0, 852076, 4, 0, 852077, 4, 0, 852078, 4, 0, 852079, 4, 0, 852080, 4, 0, 852081, 4, 0, 852082, 4, 0, 852083, 4, 0, 852084, 4, 0, 852085, 4, 0, 852086, 4, 0, 852087, 4, 0, 852088, 4, 0, 852089, 4, 0, 852090, 4, 0, 852091, 4, 0, 852092, 4, 0, 852093, 4, 0, 852094, 4, 0, 852095, 4, 0, 852096, 4, 0, 852097, 4, 0, 852098, 4, 0, 852099, 4, 0, 852100, 4, 0, 852101, 4, 0, 852102, 4, 0, 852103, 4, 0, 852104, 4, 0, 852105, 4, 0, 852106, 4, 0, 852107, 4, 0, 852108, 4, 0, 852109, 4, 0, 852110, 5, 0 )
